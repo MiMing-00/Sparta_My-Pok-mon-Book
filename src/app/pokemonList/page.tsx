@@ -1,19 +1,57 @@
-import React from "react";
+"use client";
 
-type Pokemon = {
-  id: number;
-  name: string;
-  korean_name: string;
-  height: number;
-  weight: number;
-  sprites: { front_default: string };
-  types: { type: { name: string; korean_name: string } }[];
-  abilities: { ability: { name: string; korean_name: string } }[];
-  moves: { move: { name: string; korean_name: string } }[];
-};
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import React from "react";
+import type { Pokemon } from "@/types/type.pokemon";
+import Link from "next/link";
+import Image from "next/image";
 
 const PokemonPage = () => {
-  return <div>PokemonPage</div>;
+  const { data, isPending, error } = useQuery({
+    queryKey: ["pokemons"],
+    queryFn: async (): Promise<Pokemon[] | undefined> => {
+      try {
+        const { data } = await axios.get("/api/pokemons");
+        console.log(data);
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
+  console.log(data);
+
+  if (isPending) {
+    return <div>loading...</div>;
+  }
+
+  if (error) {
+    return <div>eRRROOROROOROOOOO!!!!!!!!!!</div>;
+  }
+
+  return (
+    <>
+      <h1 className="text-xl text-center font-bold mt-4">Pokémon</h1>
+      <ul className="grid text-center justify-items-center grid-cols-5 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 min-[320px]:grid-cols-1">
+        {data?.map((item) => (
+          <Link href={`/pokemonList/${item.id}`} key={item.id}>
+            <li className="border-2 boder-soild border-black p-4 m-4 rounded-xl hover:shadow-xl bg-white">
+              <div>No. {item.id}</div>
+              <Image
+                src={item.sprites.front_default}
+                alt={item.name}
+                width={150}
+                height={150}
+              />
+              <div className="font-medium">{item.korean_name}</div>
+            </li>
+          </Link>
+        ))}
+      </ul>
+    </>
+  );
 };
 
 export default PokemonPage;
