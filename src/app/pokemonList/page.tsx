@@ -6,14 +6,14 @@ import React from "react";
 import type { Pokemon } from "@/types/type.pokemon";
 import Link from "next/link";
 import Image from "next/image";
+import Loading from "../components/Loading";
 
 const PokemonPage = () => {
-  const { data, isPending, error } = useQuery({
+  const { data, isPending, error } = useQuery<Pokemon[]>({
     queryKey: ["pokemons"],
-    queryFn: async (): Promise<Pokemon[] | undefined> => {
+    queryFn: async () => {
       try {
         const { data } = await axios.get("/api/pokemons");
-        console.log(data);
         return data;
       } catch (error) {
         console.log(error);
@@ -21,10 +21,8 @@ const PokemonPage = () => {
     },
   });
 
-  console.log(data);
-
-  if (isPending) {
-    return <div>loading...</div>;
+  if (isPending || !data) {
+    return <Loading />;
   }
 
   if (error) {

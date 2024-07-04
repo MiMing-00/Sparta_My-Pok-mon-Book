@@ -1,31 +1,28 @@
 import { PokemonDetail } from "../_components/PokemonDetail";
 import type { Metadata, ResolvingMetadata } from "next";
+import { metadata } from "../../layout";
 
 // TODO 메타 데이터 관련
-// type Props = {
-//   params: { id: string };
-//   searchParams: { [key: string]: string | string[] | undefined };
-// };
+type Props = {
+  params: { id: string };
+  // searchParams: { [key: string]: string | string[] | undefined };
+};
 
-// export async function generateMetadata(): Promise<Metadata> {
-//   fetch data
-//   const data = await fetch(`https://jsonplaceholder.typicode.com/todos/1`).then(
-//     (res) => res.json()
-//   );
-
-//   return {
-//     title: data.title,
-//     description: `${data.title}에 대한 내용`,
-//   };
-// }
-
-// 1. page 워닝 경고 삭제
-// 2. 메타 데이터를 위해서 패치로 한 번 더 불러오는 게 맞는 방안인지?_동적으로 쓰고 있음/
-// 3. 유즈 쿼리를 지금 알맞게 쓴 것이 맞는지?
+export async function generateMetadata({ params: { id } }: Props) {
+  // fetch data
+  try {
+    const res = await fetch(`http://localhost:3000/api/pokemons/${id}`);
+    const data = await res.json();
+    return {
+      title: data.korean_name,
+      description: `${data.korean_name}의 정보이다`,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const PokemonDetailPage = ({ params: { id } }: { params: { id: string } }) => {
-  console.log(id);
-
   return (
     <>
       <PokemonDetail id={id} />
