@@ -10,6 +10,7 @@
 
 ## 웹페이지 사용성
 - [x] tanstack query 를 도입하여 캐시 처리
+- [x] 페이지네이션 기능 도입
 
 # 프로젝트 요구 사항
 - [x]  app router 기반, typescript 사용, tailwindcss 사용을 베이스로 한 Nextjs 14 버전으로 프로젝트가 구성
