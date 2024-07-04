@@ -8,7 +8,11 @@ export default function Home() {
           <span>포</span>
           <span className="text-red-600">켓</span>
           <span className="text-yellow-400">몬</span>
-          <span className="text-green-600"> 도감</span>으로 이동
+          <span className="text-green-600"> 도감</span>으로
+          <span className="font-bold animate-[slideRight_0.5s_forwards]">
+            {" "}
+            이동
+          </span>
         </h1>
       </Link>
     </main>
