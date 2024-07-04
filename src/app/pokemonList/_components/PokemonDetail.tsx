@@ -9,23 +9,13 @@ import Link from "next/link";
 import React from "react";
 
 export const PokemonDetail = ({ id }: { id: string }) => {
-  // console.log("컴포넌트 실행", id);
-
-  //내가 보고 있는 도메인의 url의 id를 추출해서 변수에 저장 -> 변수를 토대로 useQuery 호출
-  //id를 가지고 오는 건 서버 / 활용하는 건 클라이언트
-
   const {
     data: pokemon,
     isPending,
     isError,
   } = useQuery<Pokemon>({
     queryKey: ["pokemonDetail", id],
-
-    // 비동기라서 언디파인드도 해줘야 하는 것일까
-    queryFn: async ({ queryKey }) => {
-      // console.log("쿼리펑션 실행");
-      // 아이디를 굳이 추출해야 할까? 이걸로 메타 데이터를 전달할 수 있을까?
-      const [_, id] = queryKey;
+    queryFn: async () => {
       try {
         const { data } = await axios.get(`/api/pokemons/${id}`);
         return data;
@@ -46,7 +36,13 @@ export const PokemonDetail = ({ id }: { id: string }) => {
   }
 
   return (
-    <div className="w-1/2 xl:w-1/2 md:w-1/2 sm:w-2/3 min-[320px]:w-full flex flex-col bg-white border-black border-2 p-4 mx-auto my-4 rounded-2xl text-center justify-center">
+    <div
+      className={`w-1/2 xl:w-1/2 md:w-1/2 sm:w-2/3 min-[320px]:w-full flex flex-col bg-white border-2 p-4 mx-auto my-4 text-center justify-center ${
+        pokemon.base_experience >= 290 && pokemon.id > 143 && pokemon.id !== 149
+          ? "border-rainbow "
+          : "border-black"
+      }`}
+    >
       <div>
         No. <span className="font-bold">{pokemon.id}</span>
       </div>

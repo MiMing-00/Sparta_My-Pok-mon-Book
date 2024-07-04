@@ -1,15 +1,10 @@
 import { PokemonDetail } from "../_components/PokemonDetail";
-import type { Metadata, ResolvingMetadata } from "next";
-import { metadata } from "../../layout";
 
-// TODO 메타 데이터 관련
 type Props = {
   params: { id: string };
-  // searchParams: { [key: string]: string | string[] | undefined };
 };
 
 export async function generateMetadata({ params: { id } }: Props) {
-  // fetch data
   try {
     const res = await fetch(`http://localhost:3000/api/pokemons/${id}`);
     const data = await res.json();
