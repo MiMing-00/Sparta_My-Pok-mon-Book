@@ -6,7 +6,9 @@ type Props = {
 
 export async function generateMetadata({ params: { id } }: Props) {
   try {
-    const res = await fetch(`http://localhost:3000/api/pokemons/${id}`);
+    const res = await fetch(
+      `https://sparta-my-pok-mon-book-xvzw.vercel.app//api/pokemons/${id}`
+    );
     const data = await res.json();
     return {
       title: data.korean_name,
