@@ -12,7 +12,7 @@ export const PokemonDetail = ({ id }: { id: string }) => {
   const {
     data: pokemon,
     isPending,
-    isError,
+    error,
   } = useQuery<Pokemon>({
     queryKey: ["pokemonDetail", id],
     queryFn: async () => {
@@ -27,11 +27,11 @@ export const PokemonDetail = ({ id }: { id: string }) => {
   });
 
   if (isPending || !pokemon) {
-    return <Loading />;
+    return <Loading text="포켓몬아 안녕!" />;
   }
 
-  if (isError) {
-    console.log(isError);
+  if (error) {
+    console.log(error);
     return <div>ERRRRRRRRRRRR</div>;
   }
 
