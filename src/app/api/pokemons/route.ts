@@ -23,7 +23,7 @@ export const GET = async (request: Request) => {
     const allPokemonResponses = await Promise.all(allPokemonPromises);
 
     const allPokemonData = allPokemonResponses.map(
-      ([response, speciesResponse]) => {
+      ([response, speciesResponse]: any) => {
         const koreanName = speciesResponse.data.names.find(
           (name: any) => name.language.name === "ko"
         );
