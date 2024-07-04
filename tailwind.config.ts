@@ -15,6 +15,15 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }: { addUtilities: any }) {
+      addUtilities({
+        ".border-rainbow": {
+          "border-image":
+            "linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet) 1",
+        },
+      });
+    },
+  ],
 };
 export default config;
